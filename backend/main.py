@@ -3,20 +3,13 @@ from pydantic import BaseModel
 
 from agent.graph import agent
 from project_brain import router as brain_router
-
-
-
 from timeline import router as timeline_router
-from fastapi.middleware.cors import CORSMiddleware
-
 from health import router as health_router
 
-
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
-
-
 
 
 app.add_middleware(
@@ -27,13 +20,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 app.include_router(brain_router)
 app.include_router(timeline_router)
 app.include_router(health_router)
 
+
+
 class Query(BaseModel):
     message: str
     repo_url: str | None = None
+
 
 
 @app.get("/")
@@ -56,6 +53,7 @@ def home():
     }
 
 
+
 @app.post("/chat")
 def chat(query: Query):
 
@@ -69,35 +67,36 @@ def chat(query: Query):
         }
     )
 
-@app.get("/chat")
-def chat_info():
-
-    return {
-        "message":"Chat API is running",
-        "method":"POST",
-        "endpoint":"/chat"
-    }
-
 
     print("AGENT RESULT:", result)
 
 
     return {
 
-"answer": result.get("response"),
+        "answer": result.get("response"),
 
-"analysis": result.get("analysis"),
+        "analysis": result.get("analysis"),
 
-"memory": result.get("memory"),
+        "memory": result.get("memory"),
 
-"conflict": result.get(
-    "conflict_report",
-    "No conflict detected"
-),
+        "conflict": result.get(
+            "conflict_report",
+            "No conflict detected"
+        ),
 
-"execution": result.get(
-    "code_changes",
-    []
-)
+        "execution": result.get(
+            "code_changes",
+            []
+        )
+    }
 
-}
+
+
+@app.get("/chat")
+def chat_info():
+
+    return {
+        "message": "Chat API is running",
+        "method": "POST",
+        "endpoint": "/chat"
+    }
