@@ -7,19 +7,13 @@ router = APIRouter()
 def health():
 
     return {
+
         "status": "healthy",
-        "checks": [
-            {
-                "name": "Parcle Memory",
-                "status": "connected"
-            },
-            {
-                "name": "Enter Agent",
-                "status": "connected"
-            },
-            {
-                "name": "LangGraph Workflow",
-                "status": "running"
-            }
-        ]
+
+        "parcle": "connected",
+
+        "enter": "connected",
+
+        "langgraph": "running"
+
     }
