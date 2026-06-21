@@ -31,6 +31,25 @@ class Query(BaseModel):
     repo_url: str | None = None
 
 
+@app.get("/")
+def home():
+
+    return {
+        "project": "DevSarthi AI",
+        "status": "running",
+        "features": [
+            "Parcle Persistent Memory",
+            "Enter Pro Agent Execution",
+            "Architecture Conflict Detection",
+            "Engineering Timeline",
+            "Documentation Agent"
+        ],
+        "endpoints": {
+            "chat": "/chat",
+            "timeline": "/timeline"
+        }
+    }
+
 
 @app.post("/chat")
 def chat(query: Query):
