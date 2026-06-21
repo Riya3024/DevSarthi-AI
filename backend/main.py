@@ -8,6 +8,8 @@ from health import router as health_router
 
 from fastapi.middleware.cors import CORSMiddleware
 
+from activity import router as activity_router
+
 
 app = FastAPI()
 
@@ -24,6 +26,7 @@ app.add_middleware(
 app.include_router(brain_router)
 app.include_router(timeline_router)
 app.include_router(health_router)
+app.include_router(activity_router)
 
 
 

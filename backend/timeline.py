@@ -11,8 +11,8 @@ memory = ParcleMemory()
 def get_timeline():
 
     memories = memory.search_memory(
-        "architecture decision implementation fix engineering"
-    )
+        "project"
+)
 
     timeline = []
 
