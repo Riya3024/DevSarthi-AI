@@ -37,7 +37,7 @@ def get_timeline():
         "agent": "DevSarthi AI",
 
         "timestamp":
-datetime.utcnow().isoformat(),
+datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
 
 
 "source":
