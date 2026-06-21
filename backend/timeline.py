@@ -30,14 +30,18 @@ def get_timeline():
         else "Decision",
 
         "title":
-        "AI Generated Project Decision",
+"Engineering Decision Retrieved from Parcle",
 
         "decision": text,
 
         "agent": "DevSarthi AI",
 
         "timestamp":
-        datetime.now().isoformat()
+datetime.utcnow().isoformat(),
+
+
+"source":
+"Parcle Memory"
     }
 )
         
