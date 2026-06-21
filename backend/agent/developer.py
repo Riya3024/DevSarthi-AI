@@ -26,6 +26,11 @@ def developer_agent(state):
         {}
     )
 
+    conflict = state.get(
+    "conflict_report",
+    ""
+)
+
 
     # Prepare memory context
     if project_memory:
@@ -90,6 +95,10 @@ CURRENT TASK:
 ENTER PRO EXECUTION RESULT:
 
 {enter_result}
+
+ARCHITECTURE CONFLICT CHECK:
+
+{conflict}
 
 
 Your responsibilities:

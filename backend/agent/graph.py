@@ -8,22 +8,26 @@ from .developer import developer_agent
 from .reviewer import reviewer_agent
 from .documentation import documentation_agent
 from .enter_agent import enter_agent
+from .conflict_detector import conflict_detector
 
 
 class AgentState(TypedDict):
 
-    user_query: str
-    repo_url: str | None
+    user_query:str
 
-    memory: list
+    repo_url:str | None
 
-    analysis: dict
+    memory:list
 
-    response: str
+    analysis:dict
 
-    decision: str
+    response:str
 
-    code_changes: list
+    decision:str
+
+    code_changes:list
+
+    conflict_report:str
 
 
 
@@ -51,6 +55,11 @@ workflow.add_node(
 workflow.add_node(
     "enter",
     enter_agent
+)
+
+workflow.add_node(
+    "conflict",
+    conflict_detector
 )
 
 
@@ -87,6 +96,12 @@ workflow.add_edge(
 
 workflow.add_edge(
     "memory",
+    "conflict"
+)
+
+
+workflow.add_edge(
+    "conflict",
     "developer"
 )
 

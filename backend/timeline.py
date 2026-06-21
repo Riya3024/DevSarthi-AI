@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from agent.memory import ParcleMemory
+from datetime import datetime
 
 router = APIRouter()
 
@@ -10,21 +11,40 @@ memory = ParcleMemory()
 def get_timeline():
 
     memories = memory.search_memory(
-        "architecture bug fix engineering task documentation"
+        "architecture decision implementation fix engineering"
     )
 
     timeline = []
 
+
     for idx, item in enumerate(memories):
+
+        text = str(item)
 
         timeline.append(
             {
                 "id": idx + 1,
-                "event": str(item)
+                "type": "Engineering Decision",
+
+                "title": 
+                "AI Generated Project Decision",
+
+                "decision": text,
+
+                "agent": "DevSarthi AI",
+
+                "timestamp":
+                datetime.now().isoformat()
             }
         )
 
+
     return {
-        "count": len(timeline),
-        "timeline": timeline
+        "project": "DevSarthi AI",
+
+        "total_decisions":
+        len(timeline),
+
+        "timeline":
+        timeline
     }

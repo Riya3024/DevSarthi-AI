@@ -50,7 +50,21 @@ def chat(query: Query):
 
 
     return {
-        "answer": result.get("response", "No response generated"),
-        "analysis": result.get("analysis", {}),
-        "memory": result.get("memory", [])
-    }
+
+"answer": result.get("response"),
+
+"analysis": result.get("analysis"),
+
+"memory": result.get("memory"),
+
+"conflict": result.get(
+    "conflict_report",
+    "No conflict detected"
+),
+
+"execution": result.get(
+    "code_changes",
+    []
+)
+
+}
