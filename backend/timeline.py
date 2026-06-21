@@ -20,14 +20,24 @@ def get_timeline():
     for idx, item in enumerate(memories):
 
         text = str(item)
+        # category detection
+        if "bug" in text.lower() or "fix" in text.lower():
+         category = "Bug Fix"
+
+        elif "architecture" in text.lower():
+         category = "Architecture"
+
+        elif "documentation" in text.lower() or "readme" in text.lower():
+         category = "Documentation"
+
+        else:
+         category = "Decision"
 
         timeline.append(
     {
         "id": idx + 1,
 
-        "type":
-        "Architecture" if "architecture" in text.lower()
-        else "Decision",
+        "type": category,
 
         "title":
 "Engineering Decision Retrieved from Parcle",
