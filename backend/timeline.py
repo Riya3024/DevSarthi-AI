@@ -22,29 +22,52 @@ def get_timeline():
         text = str(item)
 
         timeline.append(
-            {
-                "id": idx + 1,
-                "type": "Engineering Decision",
+    {
+        "id": idx + 1,
 
-                "title": 
-                "AI Generated Project Decision",
+        "type":
+        "Architecture" if "architecture" in text.lower()
+        else "Decision",
 
-                "decision": text,
+        "title":
+        "AI Generated Project Decision",
 
-                "agent": "DevSarthi AI",
+        "decision": text,
 
-                "timestamp":
-                datetime.now().isoformat()
-            }
-        )
+        "agent": "DevSarthi AI",
+
+        "timestamp":
+        datetime.now().isoformat()
+    }
+)
+        
 
 
     return {
-        "project": "DevSarthi AI",
 
-        "total_decisions":
-        len(timeline),
+    "project": "DevSarthi AI",
 
-        "timeline":
-        timeline
-    }
+    "total_memories": len(timeline),
+
+    "statistics": {
+
+        "decisions": len(
+            [
+                x for x in timeline
+                if x["type"] == "Decision"
+            ]
+        ),
+
+        "architectures": len(
+            [
+                x for x in timeline
+                if x["type"] == "Architecture"
+            ]
+        ),
+
+        "total": len(timeline)
+    },
+
+
+    "timeline": timeline
+}
