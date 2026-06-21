@@ -3,23 +3,23 @@ from fastapi import APIRouter
 router = APIRouter()
 
 
-@router.get("/architecture-health")
+@router.get("/health")
 def health():
 
     return {
-        "status":"healthy",
-        "checks":[
+        "status": "healthy",
+        "checks": [
             {
-             "name":"Parcle Memory",
-             "status":"connected"
+                "name": "Parcle Memory",
+                "status": "connected"
             },
             {
-             "name":"Enter Agent",
-             "status":"connected"
+                "name": "Enter Agent",
+                "status": "connected"
             },
             {
-             "name":"LangGraph Workflow",
-             "status":"running"
+                "name": "LangGraph Workflow",
+                "status": "running"
             }
         ]
     }
