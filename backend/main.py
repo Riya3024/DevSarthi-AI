@@ -64,6 +64,15 @@ def chat(query: Query):
         }
     )
 
+@app.get("/chat")
+def chat_info():
+
+    return {
+        "message":"Chat API is running",
+        "method":"POST",
+        "endpoint":"/chat"
+    }
+
 
     print("AGENT RESULT:", result)
 
