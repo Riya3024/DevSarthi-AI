@@ -32,12 +32,14 @@ def get_timeline():
         "title":
 "Engineering Decision Retrieved from Parcle",
 
-        "decision": text,
+        "decision": text[:250],
 
         "agent": "DevSarthi AI",
 
         "timestamp":
 datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+
+"summary": "Engineering decision retrieved from Parcle memory",
 
 
 "source":
