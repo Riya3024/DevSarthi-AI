@@ -9,6 +9,10 @@ from project_brain import router as brain_router
 from timeline import router as timeline_router
 from fastapi.middleware.cors import CORSMiddleware
 
+from health import router as health_router
+
+
+
 
 app = FastAPI()
 
@@ -25,6 +29,7 @@ app.add_middleware(
 
 app.include_router(brain_router)
 app.include_router(timeline_router)
+app.include_router(health_router)
 
 class Query(BaseModel):
     message: str
