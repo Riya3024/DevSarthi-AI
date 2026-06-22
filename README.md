@@ -1,4 +1,9 @@
-# DevSarthi AI — Sentient Engineering Workspace
+## DevSarthi AI 🤖
+## The Sentient Engineering Teammate with Persistent Memory
+
+An autonomous AI software engineer that remembers project decisions,
+understands engineering context, and improves development workflows
+using Parcle Memory + Enter Pro.
 
 ## Overview
 
@@ -21,6 +26,25 @@ They:
 - cannot maintain project history
 
 DevSarthi AI solves this by creating a persistent engineering memory layer.
+
+---
+
+## Why DevSarthi AI?
+
+Traditional AI coding assistants are stateless:
+- They forget previous fixes
+- They repeat architectural mistakes
+- They lack project-level understanding
+
+DevSarthi introduces persistent engineering memory.
+
+It remembers:
+- Architecture decisions
+- Bug fixes
+- Technology choices
+- Development history
+
+Every future task starts with previous knowledge.
 
 ---
 
@@ -153,23 +177,33 @@ Maintains:
 
 # Architecture
 
-React Frontend
+User
 |
+v
+React + TypeScript Dashboard
+|
+v
 FastAPI Backend
 |
-LangGraph Controller
+v
+LangGraph Agent Orchestrator
 |
-+----------------+----------------+----------------+
++----------------+
+| |
+v v
 
-Memory Developer Reviewer Docs
-| | | |
-+----------------+----------------+----------------+
+Parcle Memory Enter Pro
+(Persistent (Execution
+Knowledge) Environment)
+
 |
-Enter Pro Executor
+v
+
+Reviewer Agent + Documentation Agent
 |
-Parcle Memory Store
+v
 
-
+Updated Engineering Memory
 
 ---
 
@@ -269,15 +303,35 @@ Built using:
 
 ---
 
-# Demo Flow
+## Demo
 
-1. User gives engineering request
-2. Agent searches Parcle memory
-3. Developer agent reasons using context
-4. Enter Pro executes workflow
-5. Reviewer checks consistency
-6. Documentation agent updates knowledge
-7. Memory is saved for future tasks
+Live Demo:
+https://abe0233cd6d843b7a3b6c1d7044cab0c.prod.enterapp.pro
+
+The demo shows:
+
+1. User submits engineering request
+2. Memory Agent retrieves previous decisions
+3. Developer Agent creates solution
+4. Reviewer checks consistency
+5. Documentation updates project history
+6. Memory is stored for future tasks
+
+---
+
+## Screenshots
+
+### Engineering Dashboard
+
+![Dashboard](docs/Dashboard.PNG)
+
+### AI Engineer Chat
+
+![AI Chat](docs/AI Chat.PNG)
+
+### Agent Workflow
+
+![Agent](docs/Agent.PNG)
 
 ---
 
@@ -293,7 +347,20 @@ Built using:
 
 # Team
 
-Built for Quackathon 2026
+## Hackathon Submission
+
+Track:
+Software — The Sentient Workspace
+
+Built with:
+
+- Parcle → Persistent AI Memory
+- Enter Pro → AI-native execution environment
+- LangGraph → Multi-agent orchestration
+- FastAPI + React → Full-stack platform
+
+DevSarthi AI demonstrates how AI agents can evolve from
+simple assistants into long-term engineering teammates.
 
 ---
 
