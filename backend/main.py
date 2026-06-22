@@ -14,11 +14,21 @@ from activity import router as activity_router
 app = FastAPI()
 
 
+
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+
+    allow_origins=[
+        "https://abe0233cd6d843b7a3b6c1d7044cab0c.prod.enterapp.pro",
+        "http://localhost:5173"
+    ],
+
     allow_credentials=True,
+
     allow_methods=["*"],
+
     allow_headers=["*"],
 )
 
