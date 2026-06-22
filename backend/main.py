@@ -16,13 +16,9 @@ app = FastAPI()
 # CORS MUST BE HERE ONLY ONCE
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://abe0233cd6d843b7a3b6c1d7044cab0c.prod.enterapp.pro",
-        "https://devsarthi-ai.onrender.com",
-        "http://localhost:5173",
-    ],
+    allow_origin_regex=".*",
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["*"],
 )
@@ -62,6 +58,25 @@ def home():
     }
 
 
+from fastapi import Request
+from fastapi.responses import JSONResponse
+
+
+@app.exception_handler(Exception)
+async def global_exception_handler(
+    request: Request,
+    exc: Exception
+):
+
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": str(exc)
+        }
+    )
+
+
+
 @app.options("/chat")
 def chat_options():
     return {}
@@ -70,35 +85,48 @@ def chat_options():
 @app.post("/chat")
 def chat(query: Query):
 
-    result = agent.invoke(
-        {
-            "user_query": query.message,
-            "repo_url": query.repo_url,
-            "memory": [],
-            "response": "",
-            "analysis": {}
-        }
-    )
+    try:
 
-
-    return {
-
-        "answer": result.get("response"),
-
-        "analysis": result.get("analysis"),
-
-        "memory": result.get("memory"),
-
-        "conflict": result.get(
-            "conflict_report",
-            "No conflict detected"
-        ),
-
-        "execution": result.get(
-            "code_changes",
-            []
+        result = agent.invoke(
+            {
+                "user_query": query.message,
+                "repo_url": query.repo_url,
+                "memory": [],
+                "response": "",
+                "analysis": {}
+            }
         )
-    }
+
+
+        return {
+
+            "answer": result.get("response"),
+
+            "analysis": result.get("analysis"),
+
+            "memory": result.get("memory"),
+
+            "conflict": result.get(
+                "conflict_report",
+                "No conflict detected"
+            ),
+
+            "execution": result.get(
+                "code_changes",
+                []
+            )
+        }
+
+
+    except Exception as e:
+
+        return {
+            "error": str(e)
+        }
+
+      
+
+     
 
 
 
