@@ -5,29 +5,20 @@ from agent.graph import agent
 from project_brain import router as brain_router
 from timeline import router as timeline_router
 from health import router as health_router
-
-from fastapi.middleware.cors import CORSMiddleware
-
 from activity import router as activity_router
 
-
-app = FastAPI()
-
-
-
-
-
 from fastapi.middleware.cors import CORSMiddleware
 
+
 app = FastAPI()
 
 
+# CORS MUST BE HERE ONLY ONCE
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://abe0233cd6d843b7a3b6c1d7044cab0c.prod.enterapp.pro",
-        "https://devsarthi-ai.onrender.com",
-        "http://localhost:5173"
+        "http://localhost:5173",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -35,6 +26,7 @@ app.add_middleware(
 )
 
 
+# Routers after CORS
 app.include_router(brain_router)
 app.include_router(timeline_router)
 app.include_router(health_router)
@@ -81,9 +73,6 @@ def chat(query: Query):
             "analysis": {}
         }
     )
-
-
-    print("AGENT RESULT:", result)
 
 
     return {
