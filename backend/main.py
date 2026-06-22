@@ -104,33 +104,34 @@ def chat(query: Query):
 )
 
 
-if isinstance(answer, list):
+        if isinstance(answer, list):
+          
 
-    last = answer[-1]
+          last = answer[-1]
 
-    if hasattr(last, "content"):
-        answer = last.content
+          if hasattr(last, "content"):
+            answer = last.content
 
-    elif isinstance(last, dict):
-        answer = (
+          elif isinstance(last, dict):
+            answer = (
             last.get("content")
             or last.get("text")
             or str(last)
         )
 
 
-if not answer:
+        if not answer:
 
     # fallback for LangGraph state objects
-    for key, value in result.items():
+          for key, value in result.items():
 
-        if isinstance(value, str) and len(value) > 20:
+           if isinstance(value, str) and len(value) > 20:
             answer = value
             break
 
 
-if not answer:
-    answer = "Agent completed execution but no final message was generated."
+        if not answer:
+          answer = "Agent completed execution but no final message was generated."
 
 
         # LangGraph message format
