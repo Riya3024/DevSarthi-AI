@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pydantic import BaseModel
+from fastapi.responses import JSONResponse
 
 from agent.graph import agent
 from project_brain import router as brain_router
@@ -13,7 +14,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 
-# CORS MUST BE HERE ONLY ONCE
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origin_regex=".*",
@@ -24,7 +25,7 @@ app.add_middleware(
 )
 
 
-# Routers after CORS
+# Routers
 app.include_router(brain_router)
 app.include_router(timeline_router)
 app.include_router(health_router)
@@ -58,9 +59,6 @@ def home():
     }
 
 
-from fastapi import Request
-from fastapi.responses import JSONResponse
-
 
 @app.exception_handler(Exception)
 async def global_exception_handler(
@@ -92,6 +90,7 @@ def chat(query: Query):
             }
         )
 
+
         print("AGENT RESULT:")
         print(result)
 
@@ -104,8 +103,26 @@ def chat(query: Query):
         )
 
 
-        if not answer and "messages" in result:
-            answer = result["messages"][-1].content
+        # LangGraph message format
+        if not answer and result.get("messages"):
+
+            last_message = result["messages"][-1]
+
+            if hasattr(last_message, "content"):
+                answer = last_message.content
+
+            elif isinstance(last_message, dict):
+                answer = (
+                    last_message.get("content")
+                    or last_message.get("text")
+                )
+
+
+        # fallback so frontend never gets empty
+        if not answer:
+            answer = (
+                "I completed the engineering workflow but no final response was generated."
+            )
 
 
         return {
@@ -141,13 +158,6 @@ def chat(query: Query):
         return {
             "error": str(e)
         }
-
-
-
-    
-      
-
-     
 
 
 
