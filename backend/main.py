@@ -18,11 +18,13 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://abe0233cd6d843b7a3b6c1d7044cab0c.prod.enterapp.pro",
+        "https://devsarthi-ai.onrender.com",
         "http://localhost:5173",
     ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 
@@ -59,6 +61,10 @@ def home():
         }
     }
 
+
+@app.options("/chat")
+def chat_options():
+    return {}
 
 
 @app.post("/chat")
