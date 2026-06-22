@@ -91,51 +91,88 @@ def chat(query: Query):
         )
 
 
-        print("AGENT RESULT:")
+        print("========== AGENT RESULT ==========")
         print(result)
+        print("===================================")
 
 
-        answer = (
-            result.get("response")
-            or result.get("output")
-            or result.get("final_answer")
-            or result.get("answer")
-            or result.get("messages")
-        )
+        answer = None
 
 
-        # LangGraph messages handling
-        if isinstance(answer, list):
+        # 1. Check normal LangGraph state fields
+        possible_keys = [
+            "response",
+            "output",
+            "final_answer",
+            "answer",
+            "result",
+            "content"
+        ]
 
-            last_message = answer[-1]
+
+        for key in possible_keys:
+
+            value = result.get(key)
+
+            if value:
+
+                answer = value
+                break
+
+
+
+        # 2. Handle LangGraph messages
+        if not answer and result.get("messages"):
+
+            messages = result["messages"]
+
+            last_message = messages[-1]
+
 
             if hasattr(last_message, "content"):
+
                 answer = last_message.content
 
+
             elif isinstance(last_message, dict):
+
                 answer = (
                     last_message.get("content")
                     or last_message.get("text")
-                    or str(last_message)
+                    or last_message.get("message")
                 )
 
 
-        # fallback: search any text field
+            else:
+
+                answer = str(last_message)
+
+
+
+        # 3. Deep search fallback
         if not answer:
 
             for key, value in result.items():
 
-                if isinstance(value, str) and len(value) > 20:
+                if isinstance(value, str) and len(value.strip()) > 20:
+
                     answer = value
+                    print(
+                        "FOUND RESPONSE FROM KEY:",
+                        key
+                    )
                     break
 
 
-        # final safety fallback
+
+        # 4. Last fallback
         if not answer:
 
             answer = (
-                "Agent completed execution but no final response was generated."
+                "Agent completed execution but "
+                "no final response was generated."
             )
+
 
 
         return {
@@ -164,12 +201,29 @@ def chat(query: Query):
         }
 
 
+
     except Exception as e:
 
-        print("CHAT ERROR:", e)
+
+        print(
+            "CHAT ERROR:",
+            str(e)
+        )
+
 
         return {
-            "error": str(e)
+
+            "answer":
+            f"Agent error: {str(e)}",
+
+            "analysis": {},
+
+            "memory": [],
+
+            "conflict":
+            "error",
+
+            "execution": []
         }
 
 
