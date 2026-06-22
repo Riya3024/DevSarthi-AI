@@ -96,11 +96,41 @@ def chat(query: Query):
 
 
         answer = (
-            result.get("response")
-            or result.get("output")
-            or result.get("final_answer")
-            or result.get("answer")
+    result.get("response")
+    or result.get("output")
+    or result.get("final_answer")
+    or result.get("answer")
+    or result.get("messages")
+)
+
+
+if isinstance(answer, list):
+
+    last = answer[-1]
+
+    if hasattr(last, "content"):
+        answer = last.content
+
+    elif isinstance(last, dict):
+        answer = (
+            last.get("content")
+            or last.get("text")
+            or str(last)
         )
+
+
+if not answer:
+
+    # fallback for LangGraph state objects
+    for key, value in result.items():
+
+        if isinstance(value, str) and len(value) > 20:
+            answer = value
+            break
+
+
+if not answer:
+    answer = "Agent completed execution but no final message was generated."
 
 
         # LangGraph message format
