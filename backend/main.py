@@ -77,11 +77,6 @@ async def global_exception_handler(
 
 
 
-@app.options("/chat")
-def chat_options():
-    return {}
-
-
 @app.post("/chat")
 def chat(query: Query):
 
@@ -97,14 +92,35 @@ def chat(query: Query):
             }
         )
 
+        print("AGENT RESULT:")
+        print(result)
+
+
+        answer = (
+            result.get("response")
+            or result.get("output")
+            or result.get("final_answer")
+            or result.get("answer")
+        )
+
+
+        if not answer and "messages" in result:
+            answer = result["messages"][-1].content
+
 
         return {
 
-            "answer": result.get("response"),
+            "answer": answer,
 
-            "analysis": result.get("analysis"),
+            "analysis": result.get(
+                "analysis",
+                {}
+            ),
 
-            "memory": result.get("memory"),
+            "memory": result.get(
+                "memory",
+                []
+            ),
 
             "conflict": result.get(
                 "conflict_report",
@@ -120,10 +136,15 @@ def chat(query: Query):
 
     except Exception as e:
 
+        print("CHAT ERROR:", e)
+
         return {
             "error": str(e)
         }
 
+
+
+    
       
 
      
