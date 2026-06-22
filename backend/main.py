@@ -96,48 +96,18 @@ def chat(query: Query):
 
 
         answer = (
-    result.get("response")
-    or result.get("output")
-    or result.get("final_answer")
-    or result.get("answer")
-    or result.get("messages")
-)
-
-
-        if isinstance(answer, list):
-          
-
-          last = answer[-1]
-
-          if hasattr(last, "content"):
-            answer = last.content
-
-          elif isinstance(last, dict):
-            answer = (
-            last.get("content")
-            or last.get("text")
-            or str(last)
+            result.get("response")
+            or result.get("output")
+            or result.get("final_answer")
+            or result.get("answer")
+            or result.get("messages")
         )
 
 
-        if not answer:
+        # LangGraph messages handling
+        if isinstance(answer, list):
 
-    # fallback for LangGraph state objects
-          for key, value in result.items():
-
-           if isinstance(value, str) and len(value) > 20:
-            answer = value
-            break
-
-
-        if not answer:
-          answer = "Agent completed execution but no final message was generated."
-
-
-        # LangGraph message format
-        if not answer and result.get("messages"):
-
-            last_message = result["messages"][-1]
+            last_message = answer[-1]
 
             if hasattr(last_message, "content"):
                 answer = last_message.content
@@ -146,13 +116,25 @@ def chat(query: Query):
                 answer = (
                     last_message.get("content")
                     or last_message.get("text")
+                    or str(last_message)
                 )
 
 
-        # fallback so frontend never gets empty
+        # fallback: search any text field
         if not answer:
+
+            for key, value in result.items():
+
+                if isinstance(value, str) and len(value) > 20:
+                    answer = value
+                    break
+
+
+        # final safety fallback
+        if not answer:
+
             answer = (
-                "I completed the engineering workflow but no final response was generated."
+                "Agent completed execution but no final response was generated."
             )
 
 
@@ -189,6 +171,16 @@ def chat(query: Query):
         return {
             "error": str(e)
         }
+
+
+       
+
+
+
+
+        
+
+    
 
 
 
